@@ -378,6 +378,27 @@ a {
   border: 1px solid var(--line);
   border-radius: 8px;
   box-shadow: 0 12px 32px rgba(20, 32, 31, 0.06);
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.project-card:hover,
+.project-card:focus-visible {
+  border-color: rgba(36, 91, 82, 0.55);
+  box-shadow: 0 18px 44px rgba(20, 32, 31, 0.12);
+  transform: translateY(-2px);
+}
+
+.project-card:focus-visible {
+  outline: 3px solid rgba(36, 91, 82, 0.22);
+  outline-offset: 3px;
+}
+
+.project-card:active {
+  transform: translateY(0);
 }
 
 .project-card-top {
@@ -439,6 +460,13 @@ a {
   color: var(--teal);
   background: transparent;
   border: 0;
+}
+
+.project-card:hover .text-button,
+.project-card:focus-visible .text-button {
+  color: var(--teal-dark);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .strength-grid {

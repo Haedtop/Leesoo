@@ -158,13 +158,27 @@ function ProjectCard({project}: {project: ProjectCase}) {
   const Icon = project.icon;
 
   return (
-    <article className="project-card">
+    <article
+      aria-label={`${project.title} 상세 보기`}
+      className="project-card"
+      onClick={() => navigateProject(project.id)}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          navigateProject(project.id);
+        }
+      }}
+      role="button"
+      tabIndex={0}
+    >
       <div className="project-card-top">
         <div className="project-icon">
           <Icon size={22} />
         </div>
         <div>
-          <span className="project-category">{project.category}</span>
+          <span className="project-category">
+            {project.category} · {project.caseType}
+          </span>
           <h3>{project.shortTitle}</h3>
         </div>
       </div>
@@ -177,14 +191,10 @@ function ProjectCard({project}: {project: ProjectCase}) {
           </span>
         ))}
       </div>
-      <button
-        className="text-button"
-        type="button"
-        onClick={() => navigateProject(project.id)}
-      >
+      <span className="text-button" aria-hidden="true">
         상세 보기
         <ArrowRight size={16} />
-      </button>
+      </span>
     </article>
   );
 }
@@ -197,14 +207,14 @@ function HomePage() {
       <section className="hero" id="overview">
         <div className="hero-copy">
           <p className="eyebrow">MMORPG 시스템/밸런스 기획자</p>
-          <h1>문제를 수치로 확인하고, 구조로 해결하는 기획자 이정수</h1>
+          <h1>수치와 운영 리스크로 시스템 구조를 정리하는 기획자 이정수</h1>
           <p className="hero-summary">
-            전투, 성장, 보상, 경제 흐름을 분리해서 보지 않고 하나의 플레이
-            구조로 연결해 설계합니다.
+            상위 업데이트 요구와 운영 지표를 전투, 성장, 보상, 경제 흐름으로
+            나눠 검토하고 실행 가능한 문서로 정리합니다.
           </p>
           <div className="hero-actions">
             <a className="primary-action" href="#projects">
-              대표 프로젝트
+              대표 업무 사례
               <ArrowRight size={17} />
             </a>
             <a className="secondary-action" href={portfolioPdfUrl}>
@@ -214,26 +224,26 @@ function HomePage() {
           </div>
         </div>
 
-        <div className="hero-panel" aria-label="핵심 역량 요약">
+        <div className="hero-panel" aria-label="업무 검토 범위 요약">
           <div className="panel-header">
-            <span>Core Signal</span>
-            <strong>System Balance</strong>
+            <span>Work Scope</span>
+            <strong>System Planning</strong>
           </div>
           <div className="signal-grid">
             <MetricCard
-              label="대표 사례"
+              label="업무 사례"
               value="6개"
-              note="검증 가능한 원문 기반"
+              note="업무 문서 기반"
             />
             <MetricCard
               label="문서 구조"
               value="5단계"
-              note="문제/분석/역할/설계/결과"
+              note="배경/검토/역할/방향/산출"
             />
             <MetricCard
               label="성과 표기"
               value="분리"
-              note="실제 결과와 기대 효과 구분"
+              note="확인 지표와 의도한 효과 구분"
             />
           </div>
           <div className="system-map" aria-hidden="true">
@@ -251,20 +261,21 @@ function HomePage() {
           <span>MMORPG 시스템/밸런스</span>
         </div>
         <div>
-          <strong>핵심 강점</strong>
+          <strong>검토 축</strong>
           <span>지표 분석, 보상 기대값, 성장 곡선, 경제 리스크 제어</span>
         </div>
         <div>
-          <strong>작성 기준</strong>
-          <span>과장 제거, 수치 범위화, 실제 결과/기대 효과 분리</span>
+          <strong>문서 기준</strong>
+          <span>업무 배경, 검토 기준, 담당 범위, 산출물 중심 정리</span>
         </div>
       </section>
 
       <section className="content-section" id="projects">
-        <SectionLabel eyebrow="Case Studies" title="대표 프로젝트">
+        <SectionLabel eyebrow="Work Cases" title="대표 업무 사례">
           <p>
-            기존 웹 포트폴리오 4개 사례에 길드 연구/의뢰와 PvP TTK 개선안을
-            추가했습니다. 모든 사례는 같은 목차로 읽히도록 정리했습니다.
+            전투, 성장, 보상, 경제 리스크를 보여주는 대표 업무 사례입니다.
+            적용 결과형 사례와 탑다운 업데이트/정책 검토형 사례를 구분해
+            정리했습니다.
           </p>
         </SectionLabel>
         <div className="project-grid">
@@ -275,32 +286,32 @@ function HomePage() {
       </section>
 
       <section className="content-section compact" id="strengths">
-        <SectionLabel eyebrow="Strengths" title="면접관이 바로 읽어야 할 강점">
+        <SectionLabel eyebrow="Working Criteria" title="업무 판단 기준">
           <p>
-            장황한 감성 문구보다 실무 판단 근거가 보이도록 강점을 짧게
-            고정했습니다.
+            기능 추가 여부보다 목적, 수치, 운영 조건, 리스크를 먼저
+            확인합니다.
           </p>
         </SectionLabel>
         <div className="strength-grid">
           <div className="strength-item">
             <Target size={24} />
-            <h3>목적 우선 설계</h3>
+            <h3>목적/요구 정리</h3>
             <p>
-              기능을 먼저 늘리지 않고 어떤 문제를 해결할지, 어떤 유저 판단을
-              만들지 먼저 정의합니다.
+              신규 기능인지, 개선 요청인지, 정책 검토인지에 따라 필요한
+              판단 기준을 먼저 분리합니다.
             </p>
           </div>
           <div className="strength-item">
             <BarChart3 size={24} />
-            <h3>수치 기반 검증</h3>
+            <h3>수치/정책 검토</h3>
             <p>
-              TTK, 보상 기대값, 포인트 허들, 공급량을 함께 보며 구조가 실제로
-              작동할지 확인합니다.
+              TTK, 보상 기대값, 포인트 허들, 공급량을 함께 보고 조정 범위를
+              잡습니다.
             </p>
           </div>
           <div className="strength-item">
             <ShieldCheck size={24} />
-            <h3>리스크 제어</h3>
+            <h3>운영 리스크 관리</h3>
             <p>
               상위 유저 독점, 신규/복귀 유저 진입 장벽, 인플레이션, BM 가치
               훼손을 함께 검토합니다.
@@ -310,9 +321,9 @@ function HomePage() {
       </section>
 
       <section className="content-section compact">
-        <SectionLabel eyebrow="Interview View" title="프로젝트별 읽기 흐름" />
+        <SectionLabel eyebrow="Document Frame" title="사례별 문서 구성" />
         <div className="flow-row">
-          {['문제', '분석', '내 역할', '설계', '결과'].map((item, index) => (
+          {['배경', '검토', '역할', '방향', '산출'].map((item, index) => (
             <div className="flow-step" key={item}>
               <span>{String(index + 1).padStart(2, '0')}</span>
               <strong>{item}</strong>
@@ -322,7 +333,7 @@ function HomePage() {
       </section>
 
       <section className="content-section compact">
-        <SectionLabel eyebrow="Featured" title="빠르게 볼 대표 사례 3개" />
+        <SectionLabel eyebrow="Featured" title="우선 확인할 업무 사례 3개" />
         <div className="featured-list">
           {highlightedProjects.map((project) => (
             <button
@@ -379,7 +390,9 @@ function ProjectPage({project}: {project: ProjectCase}) {
         </button>
         <div className="project-hero-grid">
           <div>
-            <p className="eyebrow">{project.category}</p>
+            <p className="eyebrow">
+              {project.category} · {project.caseType}
+            </p>
             <h1>{project.title}</h1>
             <p>{project.summary}</p>
           </div>
@@ -404,17 +417,17 @@ function ProjectPage({project}: {project: ProjectCase}) {
       </section>
 
       <section className="detail-grid">
-        <DetailSection title="문제" items={project.problem} />
-        <DetailSection title="분석" items={project.analysis} />
-        <DetailSection title="내 역할" items={project.role} />
-        <DetailSection title="설계" items={project.design} />
+        <DetailSection title="업무 배경" items={project.problem} />
+        <DetailSection title="검토 기준" items={project.analysis} />
+        <DetailSection title="담당 범위" items={project.role} />
+        <DetailSection title="설계/정책 방향" items={project.design} />
         <DetailSection
-          title="실제 결과"
+          title="산출물/결과"
           items={project.actualResult}
           variant="result"
         />
         <DetailSection
-          title="기대 효과"
+          title="의도한 효과"
           items={project.expectedEffect}
           variant="result"
         />
