@@ -13,6 +13,8 @@ import {
 } from 'lucide-react';
 import {ProjectCase, projects} from './data/projects';
 
+const portfolioPdfUrl = `${import.meta.env.BASE_URL}portfolio-summary.pdf`;
+
 type RouteState = {
   page: 'home' | 'project';
   projectId?: string;
@@ -78,7 +80,7 @@ function Nav() {
         ))}
       </nav>
 
-      <a className="desktop-cta" href="/portfolio-summary.pdf">
+      <a className="desktop-cta" href={portfolioPdfUrl}>
         <Download size={16} />
         PDF
       </a>
@@ -107,7 +109,7 @@ function Nav() {
               {link.label}
             </a>
           ))}
-          <a href="/portfolio-summary.pdf" onClick={() => setIsOpen(false)}>
+          <a href={portfolioPdfUrl} onClick={() => setIsOpen(false)}>
             PDF 요약본
           </a>
         </div>
@@ -205,7 +207,7 @@ function HomePage() {
               대표 프로젝트
               <ArrowRight size={17} />
             </a>
-            <a className="secondary-action" href="/portfolio-summary.pdf">
+            <a className="secondary-action" href={portfolioPdfUrl}>
               <Download size={17} />
               PDF 요약본
             </a>
@@ -449,7 +451,7 @@ function Footer() {
           <Phone size={17} />
           010-8048-8571
         </a>
-        <a href="/portfolio-summary.pdf">
+        <a href={portfolioPdfUrl}>
           <Download size={17} />
           PDF 요약본
         </a>
